@@ -1,9 +1,10 @@
 let DS = loadImage("assets/DS.png");
 let DSpen = loadImage("assets/DSpen.png");
-let gamestate = "food";
+let gamestate = "game";
 let showTutorial = false;
 let allowedToContinue = false;
 let counter = 0;
+let dying = false;
 
 import Cherry from "./Cherry";
 import Poison from "./Poison";
@@ -20,21 +21,21 @@ let foodies = [];
 let newFood;
 let PoisonMeter = new Scale(400, 120, 1);
 let CherryMeter = new Scale(430, 120, 1);
-let HungerScale = new Scale(180, 120, 0.2);
-let TiredScale = new Scale(210, 120, 0.2);
-let FriendScale = new Scale(240, 120, 0.2);
+let HungerScale = new Scale(180, 120, 4.2);
+let TiredScale = new Scale(210, 120, 4.2);
+let FriendScale = new Scale(240, 120, 3.2);
 
 let StartButton = new Button(245, 390, 1, "START", 130);
 let TutorialButton = new Button(264, 475, 0.4, "HOW TO PLAY", 240);
 let ContinueButton = new Button(270, 450, 0.5, "Continue", 160);
-let FeedButton = new Button(185, 450, 0.8, "FEED", 95);
-let SleepButton = new Button(270, 450, 0.8, "SLEEP", 100);
-let PetButton = new Button(360, 450, 0.8, "PET", 95);
+let FeedButton = new Button(185, 340, 0.8, "FEED", 95);
+let SleepButton = new Button(270, 340, 0.8, "REST", 100);
+let PetButton = new Button(360, 340, 0.8, "PET", 95);
 
 let Victory = new Announcement(210, 440, "Victory!");
 let Failure = new Announcement(210, 440, "Failure!");
 
-let Berndt = new Creature(310, 180, "happy");
+let Berndt = new Creature(310, 180, "sad");
 
 function foodDrop() {
   if (Math.random() < 0.5) {
@@ -57,6 +58,8 @@ function foodgame() {
     push();
     if (PoisonMeter.unit >= 7) {
       Failure.display();
+      Berndt.mood = "dead";
+      dying = true;
     }
     if (CherryMeter.unit >= 7) {
       Victory.display();
@@ -100,6 +103,8 @@ function foodgame() {
   }
 //yellow(255,244,220)
 */
+// let cyan = {
+//   light: color(191, 255, 245),
 
 //this.color = color(255,0,0); fill(this.color);
 
@@ -126,8 +131,41 @@ function screens() {
     gamescreen();
   } else if (gamestate === "food") {
     foodscreen();
+  } else if (gamestate === "rest") {
+    restscreen();
+  } else if (gamestate === "pet") {
+    petscreen();
+  } else if (gamestate === "end") {
+    endscreen();
   }
-  moodScales();
+
+  if (gamestate !== "start" && gamestate !== "end") {
+    moodScales();
+    Berndt.display();
+  }
+}
+
+function restscreen() {}
+
+function petscreen() {}
+
+function whichMood() {
+  if (dying === false) {
+    if (TiredScale.unit > 2) {
+      if (
+        HungerScale.unit + TiredScale.unit + FriendScale.unit >= 6 &&
+        HungerScale.unit + TiredScale.unit + FriendScale.unit <= 12
+      ) {
+        Berndt.mood = "neutral";
+      } else if (HungerScale.unit + TiredScale.unit + FriendScale.unit >= 7) {
+        Berndt.mood = "happy";
+      }
+    } else {
+      Berndt.mood = "angry";
+    }
+  } else {
+    Berndt.mood = "dead";
+  }
 }
 
 let Startscreen = new Screens();
@@ -178,6 +216,7 @@ function gamescreen() {
   FeedButton.display();
   SleepButton.display();
   PetButton.display();
+  whichMood();
   pop();
 }
 
@@ -187,14 +226,14 @@ function draw() {
 
   //Startscreen.display();
 
-  Berndt.mood = "sad";
-
-  Berndt.display();
-
   ds();
   if (mouseX >= 175 && mouseX <= 445 && mouseY >= 335 && mouseY <= 525) {
     pointer(mouseX, mouseY);
   }
+  push();
+  rect(-25, 5, 10, -20, 100);
+  rect(25, 5, -10, -20, 100);
+  pop();
 
   noFill();
   stroke(255, 0, 0);
@@ -213,12 +252,19 @@ function mouseClicked() {
   }
   if (gamestate === "food") {
     if (ContinueButton.hitTest() && allowedToContinue === true) {
-      gamestate = "game";
+      ContinueButton.cover();
+      if (Berndt.mood !== "dead") {
+        gamestate = "game";
+      } else {
+        gamestate = "end";
+      }
       allowedToContinue = false;
       PoisonMeter.unit = 1;
       CherryMeter.unit = 1;
+      counter = 0;
     }
   }
+
   if (gamestate === "game") {
     if (FeedButton.hitTest()) {
       gamestate = "food";
