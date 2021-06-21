@@ -24,7 +24,11 @@ export default class Creature {
   eyes() {
     push();
     fill(0);
-    if (this.mood !== "dead") {
+    if (
+      this.mood !== "dead" &&
+      this.mood !== "sleepy" &&
+      this.mood !== "waking"
+    ) {
       rect(-25, 5, 10, -20, 100);
       rect(25, 5, -10, -20, 100);
     }
@@ -68,6 +72,49 @@ export default class Creature {
       rect(0, 0, -5, -25, 100);
       pop();
     }
+    if (this.mood === "sleepy") {
+      push();
+      if (mouseX > 170 && mouseX < this.x - 20) {
+        rotate(-0.2);
+      } else if (mouseX > this.x + 20 && mouseX < 440) {
+        rotate(0.2);
+      }
+      fill(0);
+      noStroke();
+      rect(-25, 10, 10, -20, 100);
+      rect(25, 10, -10, -20, 100);
+      fill(200);
+      rect(-25, 5, 10, -20, 100);
+      rect(25, 5, -10, -20, 100);
+      pop();
+      push();
+      textSize(10);
+      noStroke();
+      fill(200);
+      text("Z", 20, -50);
+      textSize(20);
+      text("Z", 35, -56);
+      textSize(30);
+      text("Z", 55, -80);
+      pop();
+    }
+    if (this.mood === "waking") {
+      push();
+      if (mouseX > 170 && mouseX < this.x - 20) {
+        rotate(-0.2);
+      } else if (mouseX > this.x + 20 && mouseX < 440) {
+        rotate(0.2);
+      }
+      fill(0);
+      noStroke();
+      rect(-25, 10, 10, -20, 100);
+      rect(25, 10, -10, -20, 100);
+      fill(200);
+      rect(-27, 0, 12, -20, 100);
+      rect(27, 0, -12, -20, 100);
+      textSize(10);
+      pop();
+    }
     pop();
   }
 
@@ -92,6 +139,19 @@ export default class Creature {
       strokeWeight(3);
       rect(-10, 22, 20, 10, 20);
     }
+    if (this.mood === "sleepy" || this.mood === "waking") {
+      push();
+      if (mouseX > 170 && mouseX < this.x - 20) {
+        rotate(-0.2);
+      } else if (mouseX > this.x + 20 && mouseX < 440) {
+        rotate(0.2);
+      }
+      fill(100);
+      stroke(0);
+      strokeWeight(3);
+      arc(0, 20, 15, 10, PI - 0.6, 0.6, CHORD);
+      pop();
+    }
 
     pop();
   }
@@ -99,11 +159,33 @@ export default class Creature {
     push();
     translate(this.x, this.y);
     noStroke();
-    if (this.mood === "neutral") {
+    if (this.mood === "neutral" || this.mood === "waking") {
+      if (this.mood === "waking") {
+        push();
+        if (mouseX > 170 && mouseX < this.x - 20) {
+          rotate(-0.2);
+        } else if (mouseX > this.x + 20 && mouseX < 440) {
+          rotate(0.2);
+        }
+        pop();
+      }
       this.ears(0.9);
     } else if (this.mood === "happy") {
       this.ears(0.4);
-    } else if (this.mood === "sad" || this.mood === "angry") {
+    } else if (
+      this.mood === "sad" ||
+      this.mood === "angry" ||
+      this.mood === "sleepy"
+    ) {
+      if (this.mood === "sleepy") {
+        push();
+        if (mouseX > 170 && mouseX < this.x - 20) {
+          rotate(-0.2);
+        } else if (mouseX > this.x + 20 && mouseX < 440) {
+          rotate(0.2);
+        }
+        pop();
+      }
       this.ears(1.3);
     } else if (this.mood === "dead") {
       this.ears(1.5);

@@ -1,11 +1,11 @@
 export default class Button {
-  constructor(x, y, s, message, length) {
+  constructor(x, y, s, message, length, covered) {
     this.x = x;
     this.y = y;
     this.s = s;
     this.message = message;
     this.length = length;
-    this.showCover = false;
+    this.covered = covered;
   }
 
   cover() {
@@ -29,7 +29,7 @@ export default class Button {
   frame() {
     push();
     stroke(255);
-    strokeWeight(15);
+    strokeWeight(15 * this.s);
     rect(0, 0, this.length * this.s, 80 * this.s, 20);
     pop();
   }
@@ -42,7 +42,9 @@ export default class Button {
       mouseY >= this.y &&
       mouseY <= this.y + 80 * this.s
     ) {
-      this.frame();
+      if (this.covered === false) {
+        this.frame();
+      }
     }
     fill("orange");
     noStroke();
@@ -51,7 +53,9 @@ export default class Button {
     textSize(25 * (this.s * 1.2));
     textAlign(CENTER);
     text(this.message, this.length * 0.5 * this.s, 50 * this.s);
-    if (this.hitTest()) {
+    pop();
+    push();
+    if (this.covered === true) {
       this.cover();
     }
     pop();
