@@ -112,13 +112,12 @@ function foodgame() {
   CherryMeter.display();
 }
 
-/*
-//let pink = {
-//  main: color(250,215,222),
-//  dark: color(240,195,205)
-  }
-//yellow(255,244,220)
-*/
+let pink = {
+  main: color(250, 215, 222),
+  dark: color(240, 195, 205),
+};
+//let yellow = { main: color(255,244,220)
+
 // let cyan = {
 //   light: color(191, 255, 245),
 
@@ -328,7 +327,7 @@ function gamescreen() {
 }
 
 function endscreen() {
-  if (TiredScale > 4) {
+  if (TiredScale.unit > 4) {
     if (Math.random() > 0.9) {
       if (Math.random() > 0.5) {
         Berndt.mood = "happy";
@@ -442,6 +441,9 @@ function mouseClicked() {
       TiredScale.unit = 0.2;
       FriendScale.unit = 0.2;
       endCounter = 0;
+      Berndt.mood = "sad";
+      dying = false;
+      EndButton.covered = true;
       gamestate = "start";
     }
   }
