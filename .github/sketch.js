@@ -1,6 +1,7 @@
 let DS = loadImage("assets/DS.png");
 let DSpen = loadImage("assets/DSpen.png");
-let gamestate = "play";
+let Logo = loadImage("assets/TamagotchiLogo.png");
+let gamestate = "start";
 let showTutorial = false;
 let allowedToContinue = false;
 let counter = 0;
@@ -15,6 +16,8 @@ let pink = {
   main: color(250, 215, 222),
   dark: color(235, 175, 190),
 };
+
+import gsap from "./gsap.min.js";
 
 import Cherry from "./Cherry";
 import Poison from "./Poison";
@@ -123,7 +126,6 @@ function foodgame() {
     ContinueButton.display();
     if (counter < 60) {
       counter += 1;
-      console.log(counter);
     }
     if (counter >= 50) {
       allowedToContinue = true;
@@ -155,13 +157,6 @@ function foodgame() {
   CherryMeter.display();
 }
 
-//let yellow = { main: color(255,244,220)
-
-// let cyan = {
-//   light: color(191, 255, 245),
-
-//this.color = color(255,0,0); fill(this.color);
-
 function moodScales() {
   push();
   noStroke();
@@ -176,9 +171,15 @@ function moodScales() {
   HungerScale.display();
   TiredScale.display();
   FriendScale.display();
-  // if (HungerScale.unit >= 0.2) {
-  //   HungerScale.unit -= 0.0005;
-  // }
+  if (HungerScale.unit >= 0.2 && gamestate !== "food" && gamestate !== "end") {
+    HungerScale.unit -= 0.0005;
+  }
+  if (TiredScale.unit >= 0.2 && gamestate !== "rest" && gamestate !== "end") {
+    TiredScale.unit -= 0.0005;
+  }
+  if (FriendScale.unit >= 0.2 && gamestate !== "play" && gamestate !== "end") {
+    FriendScale.unit -= 0.0005;
+  }
   pop();
 }
 function screens() {
@@ -233,21 +234,25 @@ function restscreen() {
       Berndt.mood = "happy";
     }
     if (wakeupCounter > 120) {
-      if (Berndt.y > 185) {
-        Berndt.y -= 15;
-      }
+      gsap.to(Berndt, {
+        duration: 0.5,
+        ease: "sine",
+        y: 185,
+      });
 
       ContinueButton.display();
     }
   }
   if (Berndt.mood !== "happy") {
     fill(255);
-    text("Awake", 200, 200);
-    text("Asleep", 380, 200);
-    rect(308, 215, 4, 15);
-    rect(200, 220, 220, 5);
+    noStroke();
+    text("Awake", 200, 212);
+    text("Asleep", 380, 212);
+    rect(308, 220, 4, 15);
+    rect(200, 225, 220, 5);
     push();
-    rect(210 + sheepcount, 210, 6, 25);
+    fill(pink.dark);
+    rect(210 + sheepcount, 215, 6, 25);
 
     pop();
   }
@@ -277,8 +282,14 @@ function playscreen() {
   }
 
   if (Math.random() > 0.95) {
-    Buddy.x = random(60, 90);
-    Buddy.y = random(-20, 20);
+    gsap.to(Buddy, {
+      duration: 0.1,
+      ease: "sine",
+      x: random(60, 90),
+      y: random(-20, 20),
+    });
+    // Buddy.x = random(60, 90);
+    // Buddy.y = random(-20, 20);
   }
   Buddy.display();
   Berndt.x = 300 - Buddy.x;
@@ -333,22 +344,31 @@ function pointer(x, y) {
 }
 
 function startscreen() {
-  fill(255, 244, 220);
-  rect(160, 45, 300, 210);
-  rect(170, 330, 280, 200);
+  fill(255);
+  room();
+  image(Logo, 160, 50, 320, 146);
   TutorialButton.display();
   StartButton.display();
   if (showTutorial === true) {
     push();
     TutorialButton.covered = true;
 
-    fill(0);
-    stroke(200);
-    strokeWeight(15);
-    rect(200, 60, 220, 175, 25);
+    fill(pink.dark);
+    stroke(255);
+    strokeWeight(10);
+    rect(175, 60, 270, 175, 25);
     fill(255);
     noStroke();
-    text("TUT", 200, 100, 200, 200);
+    textSize(18);
+    text("Feed your Lil' Thing Cherries, not poison!", 190, 80, 250, 175);
+    text(
+      "Pet it to put it to sleep, or watch it play with a friend.",
+      190,
+      130,
+      250,
+      175
+    );
+    text("Make it happy to win!", 190, 190, 250, 175);
     pop();
   }
 }
@@ -373,10 +393,20 @@ function endscreen() {
     if (Math.random() > 0.9) {
       if (Math.random() > 0.5) {
         Berndt.mood = "happy";
-        Berndt.y = random(160, 180);
+        gsap.to(Berndt, {
+          duration: 0.1,
+          ease: "sine",
+          y: random(160, 180),
+        });
+        //Berndt.y = random(160, 180);
       } else {
         Berndt.mood = "neutral";
-        Berndt.y = random(170, 190);
+        gsap.to(Berndt, {
+          duration: 0.1,
+          ease: "sine",
+          y: random(170, 190),
+        });
+        //Berndt.y = random(170, 190);
       }
     }
     push();
