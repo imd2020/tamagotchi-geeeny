@@ -1,4 +1,4 @@
-import Food from "./Food";
+import Food from "./Food.js";
 
 export default class Poison extends Food {
   constructor(x, y, foodImage) {

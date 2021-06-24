@@ -17,15 +17,13 @@ let pink = {
   dark: color(235, 175, 190),
 };
 
-import gsap from "./gsap.min.js";
-
-import Cherry from "./Cherry";
-import Poison from "./Poison";
-import Scale from "./Scale";
-import Creature from "./Creature";
-import Button from "./button";
-import Screens from "./Screens";
-import Announcement from "./Announcement";
+import Cherry from "./Cherry.js";
+import Poison from "./Poison.js";
+import Scale from "./Scale.js";
+import Creature from "./Creature.js";
+import Button from "./button.js";
+import Screens from "./Screens.js";
+import Announcement from "./Announcement.js";
 
 let cherryImg = loadImage("assets/cherry.png");
 let poisonImg = loadImage("assets/poison.png");
@@ -332,11 +330,11 @@ function ds() {
 function pointer(x, y) {
   if (mouseIsPressed === false) {
     image(DSpen, x - 20, y - 320, 230, 320);
-    fill(170, 160, 195, 115);
+    fill(120, 110, 145, 115);
     noStroke();
     ellipse(x, y, 60, 25);
   } else if (mouseIsPressed === true) {
-    fill(170, 160, 195, 115);
+    fill(120, 110, 145, 155);
     noStroke();
     ellipse(x, y, 50, 20);
     image(DSpen, x - 25, y - 305, 230, 320);
@@ -446,7 +444,7 @@ function room() {
   noStroke();
   fill(220, 160, 135);
   rect(100, 40, 400, 250);
-  for (i = 0; i < 7; i += 1) {
+  for (let i = 0; i < 7; i += 1) {
     fill(240, 190, 140);
     rect(i * 55 + 140, 40, 15, 250);
   }
@@ -454,7 +452,7 @@ function room() {
   rect(60, 200, 400, 20);
   fill(120, 65, 45);
   rect(100, 220, 400, 320);
-  for (i = 0; i < 7; i += 1) {
+  for (let i = 0; i < 7; i += 1) {
     fill(85, 40, 20);
     rect(140, i * 50 + 240, 350, 4);
   }
@@ -462,8 +460,9 @@ function room() {
   //rect(200,100, 20, 200);
   pop();
 }
+
 function draw() {
-  background(30);
+  background(90, 70, 80);
   translate(0, 0);
   room();
   screens();
@@ -475,6 +474,9 @@ function draw() {
     pointer(mouseX, mouseY);
   }
 }
+window.draw = draw;
+window.mouseClicked = mouseClicked;
+window.mouseReleased = mouseReleased;
 
 function mouseClicked() {
   if (gamestate === "start") {

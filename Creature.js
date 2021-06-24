@@ -41,47 +41,47 @@ export default class Creature {
       this.mood !== "sleepy" &&
       this.mood !== "waking"
     ) {
-      rect(-25, 5, 10, -20, 100);
-      rect(25, 5, -10, -20, 100);
+      rect(-25, -15, 10, 20, 100);
+      rect(15, -15, 10, 20, 100);
     }
     fill(this.color2);
     if (this.mood === "happy") {
-      rect(-27, 20, 15, -20, 100);
-      rect(27, 20, -15, -20, 100);
+      rect(-27, 0, 15, 20, 100);
+      rect(13, 0, 15, 20, 100);
     }
     if (this.mood === "angry") {
-      rect(-26, -10, 15, -20, 100);
-      rect(26, -10, -15, -20, 100);
+      rect(-26, -30, 15, 20, 100);
+      rect(11, -30, 15, 20, 100);
     }
     if (this.mood === "sad") {
-      rect(-30, -10, 15, -20, 100);
-      rect(30, -10, -15, -20, 100);
+      rect(-30, -30, 15, 20, 100);
+      rect(15, -30, 15, 20, 100);
     }
     if (this.mood === "dead") {
       push();
       fill(this.color3);
-      translate(-30, 15);
+      translate(-15, -5);
       rotate(0.8);
-      rect(0, 0, 5, -25, 100);
+      rect(0, 0, 5, 25, 100);
       pop();
       push();
       fill(this.color3);
-      translate(-9, 15);
+      translate(-33, 0);
       rotate(-0.8);
-      rect(0, 0, -5, -25, 100);
+      rect(0, 0, 5, 25, 100);
       pop();
 
       push();
       fill(this.color3);
-      translate(9, 15);
+      translate(30, -5);
       rotate(0.8);
-      rect(0, 0, 5, -25, 100);
+      rect(0, 0, 5, 25, 100);
       pop();
       push();
       fill(this.color3);
-      translate(30, 15);
+      translate(11, 0);
       rotate(-0.8);
-      rect(0, 0, -5, -25, 100);
+      rect(0, 0, 5, 25, 100);
       pop();
     }
     if (this.mood === "sleepy") {
@@ -93,11 +93,11 @@ export default class Creature {
       }
       fill(this.color3);
       noStroke();
-      rect(-25, 10, 10, -20, 100);
-      rect(25, 10, -10, -20, 100);
+      rect(-25, -5, 10, 20, 100);
+      rect(15, -5, 10, 20, 100);
       fill(this.color2);
-      rect(-25, 5, 10, -20, 100);
-      rect(25, 5, -10, -20, 100);
+      rect(-25, -10, 10, 20, 100);
+      rect(15, -10, 10, 20, 100);
       pop();
       push();
       textSize(10);
@@ -119,11 +119,11 @@ export default class Creature {
       }
       fill(this.color3);
       noStroke();
-      rect(-25, 10, 10, -20, 100);
-      rect(25, 10, -10, -20, 100);
+      rect(-25, -10, 10, 20, 100);
+      rect(15, -10, 10, 20, 100);
       fill(this.color2);
-      rect(-27, 0, 12, -20, 100);
-      rect(27, 0, -12, -20, 100);
+      rect(-27, -20, 13, 20, 100);
+      rect(15, -20, 12, 20, 100);
       textSize(10);
       pop();
     }
@@ -161,7 +161,7 @@ export default class Creature {
       fill(this.color1);
       stroke(this.color3);
       strokeWeight(3);
-      arc(0, 20, 15, 10, PI - 0.6, 0.6, CHORD);
+      arc(0, 25, 15, 10, PI - 0.6, 0.6, CHORD);
       pop();
     }
 
@@ -210,13 +210,13 @@ export default class Creature {
     fill(this.color1);
     push();
     translate(35, 50);
-    rotate(-0.4);
+    rotate(-0.36);
     arc(0, 0, 50, 40, PI + 0.4, 2 * PI + 0.4, OPEN);
     pop();
     //
     push();
-    translate(-35, 50);
-    rotate(0.4);
+    translate(-35, 49);
+    rotate(0.36);
     arc(0, 0, 50, 40, PI - 0.4, 2 * PI - 0.4, OPEN);
     pop();
 
