@@ -341,10 +341,21 @@ function pointer(x, y) {
   }
 }
 
+let logoData = {
+  width: 0,
+  x: 300,
+};
 function startscreen() {
   fill(255);
   room();
-  image(Logo, 160, 50, 320, 146);
+  image(Logo, logoData.x, 50, logoData.width, 146);
+  gsap.to(logoData, {
+    duration: 2.5,
+    ease: "back.out",
+    width: 320,
+    x: 160,
+  });
+
   TutorialButton.display();
   StartButton.display();
   if (showTutorial === true) {
