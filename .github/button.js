@@ -1,11 +1,12 @@
 export default class Button {
-  constructor(x, y, s, message, length, covered) {
+  constructor(x, y, s, message, length, covered, color) {
     this.x = x;
     this.y = y;
     this.s = s;
     this.message = message;
     this.length = length;
     this.covered = covered;
+    this.color = color;
   }
 
   cover() {
@@ -46,7 +47,7 @@ export default class Button {
         this.frame();
       }
     }
-    fill("orange");
+    fill(this.color);
     noStroke();
     rect(0, 0, this.length * this.s, 80 * this.s, 20);
     fill("white");

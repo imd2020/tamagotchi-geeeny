@@ -7,7 +7,7 @@ export default class Announcement {
 
   display() {
     push();
-    fill(0);
+    fill(180, 100, 120);
     stroke(255);
     strokeWeight(10);
     textSize(60);
