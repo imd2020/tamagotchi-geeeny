@@ -4,7 +4,7 @@ function setup() {
 }
 
 window.addEventListener("resize", function () {
-  resizeCanvas(windowWidth, windowHeight);
+  resizeCanvas(620, 570);
   clear();
 });
 
